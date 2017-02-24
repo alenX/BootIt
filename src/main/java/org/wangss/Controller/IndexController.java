@@ -12,10 +12,8 @@ import java.util.Map;
 public class IndexController {
 
     @RequestMapping("/index")
-    public String index(Map<String,Object> map){
-
-        map.put("name","FreeMarker");
+    public String index(Map<String, Object> map) {
+        map.put("name", "FreeMarker");
         return "/index/index";
-
     }
 }
