@@ -8,4 +8,5 @@ import org.wangss.Models.BootUser;
  */
 public interface BootUserDao extends JpaRepository<BootUser,Long> {
     public BootUser getBootUserByid(Long id);
+    public BootUser getBootUserByname(String username);
 }

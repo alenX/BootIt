@@ -35,10 +35,22 @@ public class IndexController {
 
 
     @RequestMapping(value = "/index/register",method = RequestMethod.POST)
-    public String register(String username,String password){
+    public String register(String username,String password,Map<String,Object> map){
         BootUser bootUser = new BootUser(username,password);
         bootUserDao.save(bootUser);
-        return "/index/index";
+        map.put("name",bootUser.getName());
+        return "/index/succ";
+    }
+
+    @RequestMapping("/index/login")
+    public String login(String username,String password){
+        BootUser bootUser = bootUserDao.getBootUserByname(username);
+        if (!bootUser.isPassWord(password)){
+            return "/index/error";
+        }
+
+        System.out.println(bootUser.getName());
+        return "/index/";
 
     }
 }
