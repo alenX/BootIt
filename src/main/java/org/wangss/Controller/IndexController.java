@@ -1,6 +1,7 @@
 package org.wangss.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.wangss.Daos.BootUserDao;
 import org.wangss.Models.BootUser;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,14 +46,16 @@ public class IndexController {
     }
 
     @RequestMapping("/index/login")
-    public String login(String username, String password) {
-        BootUser bootUser = bootUserDao.getBootUserByname(username);
-        if (!bootUser.isPassWord(password)) {
-            return "/index/error";
+    public String login(String username, String password, HttpServletRequest httpRequest) {
+        List<BootUser> bootUsers = bootUserDao.getBootUserByname(username);
+        for (BootUser b : bootUsers) {
+            if (b.isPassWord(password)) {
+                httpRequest.getSession().setAttribute("name", b.getName());
+                httpRequest.getSession().setAttribute("id", b.getId());
+                System.out.println(b.getName());
+                return "/index/";
+            }
         }
-
-        System.out.println(bootUser.getName());
-        return "/index/";
-
+        return "/index/error";
     }
 }
