@@ -1,7 +1,6 @@
 package org.wangss.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +26,11 @@ public class IndexController {
         return "/index/index";
     }
 
+    @RequestMapping("/register")
+    public String register(Map<String, Object> map) {
+        return "/index/register";
+    }
+
     @Autowired
     private BootUserDao bootUserDao;
 
@@ -45,6 +49,18 @@ public class IndexController {
         return "/index/succ";
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/index/register/check_user_name", method = RequestMethod.POST)
+    public Object check_user_name(String username , Map<String, Object> map) {
+        List<BootUser> bootUsers = bootUserDao.getBootUserByname(username);
+        if (bootUsers.size()>0){
+           map.put("succ",true);
+        }else{
+            map.put("succ",false);
+        }
+        return map;
+    }
+
     @RequestMapping("/index/login")
     public String login(String username, String password, HttpServletRequest httpRequest) {
         List<BootUser> bootUsers = bootUserDao.getBootUserByname(username);
@@ -57,5 +73,10 @@ public class IndexController {
             }
         }
         return "/index/error";
+    }
+
+    @RequestMapping("/test")
+    public String test(){
+        return "test";
     }
 }

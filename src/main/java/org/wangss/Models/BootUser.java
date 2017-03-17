@@ -1,6 +1,5 @@
 package org.wangss.Models;
 
-import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 
 import javax.persistence.*;
