@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.wangss.Daos.BootUserDao;
+import org.wangss.Daos.IBootUserMapper;
 import org.wangss.Models.BootUser;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,19 +32,19 @@ public class IndexController {
     }
 
     @Autowired
-    private BootUserDao bootUserDao;
+    private IBootUserMapper bootUser;
 
     @ResponseBody
     @RequestMapping("/index/user/{id}")
     public BootUser getBootUser(@PathVariable Long id) {
-        return bootUserDao.getBootUserByid(id);
+        return bootUser.getBootUserByid(id);
     }
 
 
     @RequestMapping(value = "/index/register", method = RequestMethod.POST)
     public String register(String username, String password, Map<String, Object> map) {
         BootUser bootUser = new BootUser(username, password);
-        bootUserDao.save(bootUser);
+//        IBootUserMapper.save(bootUser);
         map.put("name", bootUser.getName());
         return "/index/succ";
     }
@@ -52,7 +52,7 @@ public class IndexController {
     @ResponseBody
     @RequestMapping(value = "/index/register/check_user_name", method = RequestMethod.POST)
     public Object check_user_name(String username , Map<String, Object> map) {
-        List<BootUser> bootUsers = bootUserDao.getBootUserByname(username);
+        List<BootUser> bootUsers = bootUser.getBootUserByname(username);
         if (bootUsers.size()>0){
            map.put("succ",true);
         }else{
@@ -63,7 +63,7 @@ public class IndexController {
 
     @RequestMapping("/index/login")
     public String login(String username, String password, HttpServletRequest httpRequest) {
-        List<BootUser> bootUsers = bootUserDao.getBootUserByname(username);
+        List<BootUser> bootUsers = bootUser.getBootUserByname(username);
         for (BootUser b : bootUsers) {
             if (b.isPassWord(password)) {
                 httpRequest.getSession().setAttribute("name", b.getName());

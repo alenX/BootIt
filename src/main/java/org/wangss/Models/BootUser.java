@@ -7,19 +7,12 @@ import javax.persistence.*;
 /**
  * Created by wangss on 2017/2/24.
  */
-@Entity
-@Table(name = "BOOT_USER")
+
 public class BootUser {
-    @Id
-    @GeneratedValue
     private Long id;
-    @Column(name = "name")
     private String name;
-    @Column(name = "password")
     private String password;
-    @Column(name = "nickname")
     private String nickname;
-    @Column(name = "isOnline")/*是否在线*/
     private boolean isOnline;
 
     public BootUser() {
