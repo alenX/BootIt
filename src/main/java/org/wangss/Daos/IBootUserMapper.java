@@ -1,7 +1,9 @@
 package org.wangss.Daos;
 
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 import org.wangss.Models.BootUser;
 
@@ -16,4 +18,7 @@ public interface IBootUserMapper {
     public BootUser getBootUserByid(Long id);
     @Select("select * from boot_user where name =#{username}")
     public List<BootUser> getBootUserByname(String username);
+    @Insert("insert into boot_user(id,name,password,nickname,isOnline) values(#{id},#{name},#{password},#{nickname},#{isOnline})")
+    @Options(useGeneratedKeys = true, keyProperty = "boot_user.id")
+    public int insertBootUser(BootUser bootUser);
 }

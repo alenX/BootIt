@@ -3,7 +3,6 @@
     <script src="/js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript">
         function check_user_name() {
-            alert();
             var username = $('#username').val();
             $.ajax({
                 url: '/index/register/check_user_name',
@@ -26,6 +25,5 @@
     <#--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
     <button type="submit">register</button>
 </form>
-<img src="/images/aa.png"/>
 </body>
 </html>

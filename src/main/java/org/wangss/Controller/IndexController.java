@@ -32,19 +32,19 @@ public class IndexController {
     }
 
     @Autowired
-    private IBootUserMapper bootUser;
+    private IBootUserMapper bootUserMapper;
 
     @ResponseBody
     @RequestMapping("/index/user/{id}")
     public BootUser getBootUser(@PathVariable Long id) {
-        return bootUser.getBootUserByid(id);
+        return bootUserMapper.getBootUserByid(id);
     }
 
 
     @RequestMapping(value = "/index/register", method = RequestMethod.POST)
     public String register(String username, String password, Map<String, Object> map) {
         BootUser bootUser = new BootUser(username, password);
-//        IBootUserMapper.save(bootUser);
+        bootUserMapper.insertBootUser(bootUser);
         map.put("name", bootUser.getName());
         return "/index/succ";
     }
@@ -52,7 +52,7 @@ public class IndexController {
     @ResponseBody
     @RequestMapping(value = "/index/register/check_user_name", method = RequestMethod.POST)
     public Object check_user_name(String username , Map<String, Object> map) {
-        List<BootUser> bootUsers = bootUser.getBootUserByname(username);
+        List<BootUser> bootUsers = bootUserMapper.getBootUserByname(username);
         if (bootUsers.size()>0){
            map.put("succ",true);
         }else{
@@ -63,7 +63,7 @@ public class IndexController {
 
     @RequestMapping("/index/login")
     public String login(String username, String password, HttpServletRequest httpRequest) {
-        List<BootUser> bootUsers = bootUser.getBootUserByname(username);
+        List<BootUser> bootUsers = bootUserMapper.getBootUserByname(username);
         for (BootUser b : bootUsers) {
             if (b.isPassWord(password)) {
                 httpRequest.getSession().setAttribute("name", b.getName());
