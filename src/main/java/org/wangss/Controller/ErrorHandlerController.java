@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ErrorHandlerController implements ErrorController {
     @Override
     public String getErrorPath() {
-        return "/index/error";
+        return "/home/error";
     }
 
     @RequestMapping

@@ -23,12 +23,12 @@ public class IndexController {
     @RequestMapping("/index")
     public String index(Map<String, Object> map) {
         map.put("name", "FreeMarker");
-        return "/index/index";
+        return "/home/home";
     }
 
     @RequestMapping("/register")
     public String register(Map<String, Object> map) {
-        return "/index/register";
+        return "/home/register";
     }
 
     @Autowired
@@ -46,11 +46,11 @@ public class IndexController {
         BootUser bootUser = new BootUser(username, password);
         bootUserMapper.insertBootUser(bootUser);
         map.put("name", bootUser.getName());
-        return "/index/succ";
+        return "/home/succ";
     }
 
     @ResponseBody
-    @RequestMapping(value = "/index/register/check_user_name", method = RequestMethod.POST)
+    @RequestMapping(name = "/home/register/check_user_name", method = RequestMethod.POST)
     public Object check_user_name(String username , Map<String, Object> map) {
         List<BootUser> bootUsers = bootUserMapper.getBootUserByname(username);
         if (bootUsers.size()>0){
@@ -69,10 +69,10 @@ public class IndexController {
                 httpRequest.getSession().setAttribute("name", b.getName());
                 httpRequest.getSession().setAttribute("id", b.getId());
                 System.out.println(b.getName());
-                return "/index/";
+                return "/home/";
             }
         }
-        return "/index/error";
+        return "/home/error";
     }
 
     @RequestMapping("/test")
